@@ -24,13 +24,13 @@ const TemperatureVisualizer = () => {
 
   return (
     <div className="temperature-visualizer">
-      <h1>Latest Temperatures</h1>
-      <ul>
+      <ul style={{ listStyleType: 'none', padding: 0 }}>
         {Object.entries(temperatures).map(([name, temp], index) => (
           <li key={index}>{name}: {temp}°C</li>
         ))}
       </ul>
     </div>
+
   );
 };
 
