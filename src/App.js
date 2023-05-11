@@ -37,7 +37,9 @@ const TemperatureVisualizer = () => {
   return (
     <div className="temperature-visualizer">
       <ul style={{ listStyleType: 'none', padding: 0 }}>
-        {Object.entries(temperatures).map(([name, temp], index) => (
+        {Object.entries(temperatures)
+          .sort(([nameA], [nameB]) => nameA.localeCompare(nameB))
+          .map(([name, temp], index) => (
           <li key={index}>{name}: {temp}°C</li>
         ))}
       </ul>
