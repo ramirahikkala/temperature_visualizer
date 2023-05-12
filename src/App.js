@@ -55,7 +55,7 @@ const TemperatureVisualizer = () => {
           const latest_datetime_local = data.latest.datetime_str ? format(utcToZonedTime(data.latest.datetime_str, finlandTimeZone), 'yyyy-MM-dd HH:mm:ss') : '';
 
           return (
-            <li key={index}>
+            <li key={index} style={{ marginBottom: '20px' }}> 
               {name}:<br />
               Latest: {data.latest.temperature}°C at {latest_datetime_local}<br />
               Min: {data.min_max.min}°C at {min_datetime_local}<br />
