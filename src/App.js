@@ -43,7 +43,7 @@ const TemperatureVisualizer = () => {
           .sort(([nameA], [nameB]) => nameA.localeCompare(nameB))
           .map(([name, data], index) => (
             <li key={index}>
-              <h5>{name}:</h5> {data.latest.temperature} °C  
+              <b>{name}:</b> {data.latest.temperature} °C  
             </li>
           ))}
       </ul>
@@ -55,7 +55,7 @@ const TemperatureVisualizer = () => {
           const latest_datetime_local = data.latest.datetime_str ? format(utcToZonedTime(data.latest.datetime_str, finlandTimeZone), 'yyyy-MM-dd HH:mm:ss') : '';
 
           return (
-            <li key={index} style={{ marginBottom: '20px' }}> 
+            <li key={index} > 
               <h5>{name}:</h5><br />
               Latest: {data.latest.temperature}°C at {latest_datetime_local}<br />
               Min: {data.min_max.min}°C at {min_datetime_local}<br />
