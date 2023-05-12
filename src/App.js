@@ -54,17 +54,14 @@ const TemperatureVisualizer = () => {
           ))}
       </ul>
       <ul style={{ listStyleType: 'none', padding: 0 }}>
-        {Object.entries(temperatures)
-          .sort(([nameA], [nameB]) => nameA.localeCompare(nameB))
-          .map(([name, data], index) => (
-            <li key={index}>
-              {name}:
-              Latest: {data.latest.temperature_calibrated}°C at {latest_datetime_local},
-              Min: {data.min_max.min}°C at {min_datetime_local},
-              Max: {data.min_max.max}°C at {max_datetime_local}
-            </li>
-
-          ))}
+        {Object.entries(temperatures).sort(([nameA], [nameB]) => nameA.localeCompare(nameB)).map(([name, data], index) => (
+          <li key={index}>
+            {name}:<br />
+            Latest: {data.latest.temperature_calibrated}°C at {latest_datetime_local}<br />
+            Min: {data.min_max.min}°C at {min_datetime_local}<br />
+            Max: {data.min_max.max}°C at {max_datetime_local}<br />
+          </li>
+        ))}
       </ul>
       <p>Time since last update: {minutes}m {seconds}s</p>
     </div>
