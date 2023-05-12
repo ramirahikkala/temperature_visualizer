@@ -53,6 +53,7 @@ const TemperatureVisualizer = () => {
             </li>
           ))}
       </ul>
+      <h2>Minimit ja maksimit:</h2>
       <ul style={{ listStyleType: 'none', padding: 0 }}>
         {Object.entries(temperatures).sort(([nameA], [nameB]) => nameA.localeCompare(nameB)).map(([name, data], index) => (
           <li key={index}>
