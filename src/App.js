@@ -50,9 +50,9 @@ const TemperatureVisualizer = () => {
       <h2>Minimit ja maksimit:</h2>
       <ul style={{ listStyleType: 'none', padding: 0 }}>
         {Object.entries(temperatures).sort(([nameA], [nameB]) => nameA.localeCompare(nameB)).map(([name, data], index) => {
-          const min_datetime_local = data.min_max.min_datetime ? format(utcToZonedTime(data.min_max.min_datetime, finlandTimeZone), 'yyyy-MM-dd HH:mm:ss') : '';
-          const max_datetime_local = data.min_max.max_datetime ? format(utcToZonedTime(data.min_max.max_datetime, finlandTimeZone), 'yyyy-MM-dd HH:mm:ss') : '';
-          const latest_datetime_local = data.latest.datetime_str ? format(utcToZonedTime(data.latest.datetime_str, finlandTimeZone), 'yyyy-MM-dd HH:mm:ss') : '';
+          const min_datetime_local = data.min_max.min_datetime ? format(utcToZonedTime(data.min_max.min_datetime, finlandTimeZone), 'dd-MM HH:mm:ss') : '';
+          const max_datetime_local = data.min_max.max_datetime ? format(utcToZonedTime(data.min_max.max_datetime, finlandTimeZone), 'dd-MM HH:mm:ss') : '';
+          const latest_datetime_local = data.latest.datetime_str ? format(utcToZonedTime(data.latest.datetime_str, finlandTimeZone), 'dd-MM HH:mm:ss') : '';
 
           return (
             <li key={index} > 
