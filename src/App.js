@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
+import { utcToZonedTime, format } from 'date-fns-tz';
 
 const TemperatureVisualizer = () => {
   const [temperatures, setTemperatures] = useState({});
@@ -33,8 +34,15 @@ const TemperatureVisualizer = () => {
 
   const minutes = Math.floor(timeElapsed / 60);
   const seconds = timeElapsed % 60;
+  const finlandTimeZone = 'Europe/Helsinki';
+
+  const min_datetime_local = format(utcToZonedTime(data.min_max.min_datetime, finlandTimeZone), 'yyyy-MM-dd HH:mm:ss');
+  const max_datetime_local = format(utcToZonedTime(data.min_max.max_datetime, finlandTimeZone), 'yyyy-MM-dd HH:mm:ss');
+  const latest_datetime_local = format(utcToZonedTime(data.latest.datetime_str, finlandTimeZone), 'yyyy-MM-dd HH:mm:ss');
+
 
   return (
+
     <div className="temperature-visualizer">
       <ul style={{ listStyleType: 'none', padding: 0 }}>
         {Object.entries(temperatures)
@@ -51,9 +59,9 @@ const TemperatureVisualizer = () => {
           .map(([name, data], index) => (
             <li key={index}>
               {name}:
-              Latest: {data.latest.temperature_calibrated}°C at {data.latest.datetime_str},
-              Min: {data.min_max.min}°C at {data.min_max.min_datetime},
-              Max: {data.min_max.max}°C at {data.min_max.max_datetime}
+              Latest: {data.latest.temperature_calibrated}°C at {latest_datetime_local},
+              Min: {data.min_max.min}°C at {min_datetime_local},
+              Max: {data.min_max.max}°C at {max_datetime_local}
             </li>
 
           ))}
