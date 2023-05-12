@@ -43,7 +43,7 @@ const TemperatureVisualizer = () => {
           .sort(([nameA], [nameB]) => nameA.localeCompare(nameB))
           .map(([name, data], index) => (
             <li key={index}>
-              {name}: {data.latest.temperature} °C  
+              <h5>{name}:</h5> {data.latest.temperature} °C  
             </li>
           ))}
       </ul>
