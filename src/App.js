@@ -10,7 +10,7 @@ const TemperatureVisualizer = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get('https://ckslcpsx8d.execute-api.eu-central-1.amazonaws.com/v1/ruuvi-data');
-        setTemperatures(response.data.temperatures.latest);
+        setTemperatures(response.data.temperatures);
         setTimeElapsed(0); // Reset timeElapsed on data update
       } catch (error) {
         console.error('Error fetching temperatures:', error);
@@ -39,8 +39,10 @@ const TemperatureVisualizer = () => {
       <ul style={{ listStyleType: 'none', padding: 0 }}>
         {Object.entries(temperatures)
           .sort(([nameA], [nameB]) => nameA.localeCompare(nameB))
-          .map(([name, temp], index) => (
-          <li key={index}>{name}: {temp}°C</li>
+          .map(([name, data], index) => (
+            <li key={index}>
+              {name}: {data.latest}°C, Min: {data.min_max.min}°C, Max: {data.min_max.max}°C
+            </li>
         ))}
       </ul>
       <p>Time since last update: {minutes}m {seconds}s</p>
