@@ -57,9 +57,9 @@ const TemperatureVisualizer = () => {
           return (
             <li key={index} > 
               <h5>{name}:</h5><br />
-              Latest: {data.latest.temperature}°C at {latest_datetime_local}<br />
-              Min: {data.min_max.min}°C at {min_datetime_local}<br />
-              Max: {data.min_max.max}°C at {max_datetime_local}<br />
+              <b>Latest:</b> {data.latest.temperature}°C at {latest_datetime_local}<br />
+              <b>Min:</b> {data.min_max.min}°C at {min_datetime_local}<br />
+              <b>Max:</b> {data.min_max.max}°C at {max_datetime_local}<br />
             </li>
           )
         })}
