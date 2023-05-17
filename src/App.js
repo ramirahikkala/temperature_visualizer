@@ -64,7 +64,7 @@ const TemperatureVisualizer = () => {
           )
         })}
       </ul>
-      <p>Viimeksi päivitetty: {minutes}m {seconds}s sitten</p>
+      <p>Time since last update: {minutes}m {seconds}s</p>
     </div>
   );
 };
