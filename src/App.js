@@ -38,12 +38,13 @@ const TemperatureVisualizer = () => {
 
   return (
     <div className="temperature-visualizer">
+      <h2>Lämpötilat:</h2>
       <ul style={{ listStyleType: 'none', padding: 0 }}>
         {Object.entries(temperatures)
           .sort(([nameA], [nameB]) => nameA.localeCompare(nameB))
           .map(([name, data], index) => (
             <li key={index}>
-              <b>{name}:</b> {data.latest.temperature} °C  
+              <b>{name}:</b> {data.latest.temperature_calibrated} °C  
             </li>
           ))}
       </ul>
@@ -57,7 +58,7 @@ const TemperatureVisualizer = () => {
           return (
             <li key={index} > 
               <h4>{name}:</h4><br />
-              <b>Latest:</b> {data.latest.temperature}°C at {latest_datetime_local}<br />
+              <b>Latest:</b> {data.latest.temperature_calibrated}°C at {latest_datetime_local}<br />
               <b>Min:</b> {data.min_max.min}°C at {min_datetime_local}<br />
               <b>Max:</b> {data.min_max.max}°C at {max_datetime_local}<br />
             </li>
