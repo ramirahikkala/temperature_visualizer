@@ -61,7 +61,7 @@ const TemperatureVisualizer = () => {
             </li>
           ))}
       </ul>
-      <h2>Minimit ja maksimit:</h2>
+      <h2>24 h minimit ja maksimit:</h2>
       <ul style={{ listStyleType: 'none', padding: 0 }}>
         {Object.entries(temperatures).sort(([nameA], [nameB]) => nameA.localeCompare(nameB)).map(([name, data], index) => {
           const min_datetime_local = data.min_max.min_datetime ? format(utcToZonedTime(data.min_max.min_datetime, finlandTimeZone), 'EEE HH:mm') : '';
@@ -77,31 +77,8 @@ const TemperatureVisualizer = () => {
             </li>
           )
         })}
-      </ul>
-      <h2>Measurement Details:</h2>
-      <ul style={{ listStyleType: 'none', padding: 0 }}>
-        {Object.entries(temperatures).sort(([nameA], [nameB
-  ]) => nameA.localeCompare(nameB)).map(([name, data], index) => {
-    const latest_datetime_local = data.latest.datetime_str ? format(utcToZonedTime(data.latest.datetime_str, finlandTimeZone), 'EEE HH:mm') : '';
-
-    return (
-      <li key={index} >
-        <h4>{name}:</h4><br />
-        <b>Measurement Sequence Number:</b> {data.latest.measurement_sequence_number}<br />
-        <b>Movement Counter:</b> {data.latest.movement_counter}<br />
-        <b>MAC:</b> {data.latest.mac}<br />
-        <b>Battery:</b> {data.latest.battery}<br />
-        <b>Acceleration:</b> X: {data.latest.acceleration_x}, Y: {data.latest.acceleration_y}, Z: {data.latest.acceleration_z}, Total: {data.latest.acceleration}<br />
-        <b>Data Format:</b> {data.latest.data_format}<br />
-        <b>Pressure:</b> {data.latest.pressure}<br />
-        <b>Transmission Power:</b> {data.latest.tx_power}<br />
-        <b>Humidity:</b> {data.latest.humidity}<br />
-        <b>RSSI:</b> {data.latest.rssi}<br />
-        <b>Calibrated Temperature:</b> {data.latest.temperature_calibrated}°C at {latest_datetime_local}<br />
-      </li>
-    )
-  })}
-      </ul>
+      </ul>    
+     
       <TemperatureCheckboxes temperatures={temperatures} handleCheckboxChange={handleCheckboxChange} />
 
       <TemperatureChart selectedTemperatures={selectedTemperatures} />
