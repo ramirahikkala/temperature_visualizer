@@ -24,6 +24,7 @@ function TemperatureChart({ selectedTemperatures }) {
               data: data.map(item => ({ x: new Date(item.datetime), y: parseFloat(item.temperature) })),
               borderColor: colors[index % colors.length],
               fill: false,
+              pointRadius: 0, 
             };
           }
           return null;
