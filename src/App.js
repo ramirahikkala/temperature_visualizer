@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
 import { utcToZonedTime, format } from 'date-fns-tz';
+import TemperatureChart from './TemperatureChart';
+import TemperatureCheckboxes from './TemperatureCheckbox';
+
 
 const TemperatureVisualizer = () => {
   const [temperatures, setTemperatures] = useState({});
@@ -35,6 +38,16 @@ const TemperatureVisualizer = () => {
   const minutes = Math.floor(timeElapsed / 60);
   const seconds = timeElapsed % 60;
   const finlandTimeZone = 'Europe/Helsinki';
+  const [selectedTemperatures, setSelectedTemperatures] = useState({});
+  const handleCheckboxChange = (event) => {
+    setSelectedTemperatures({
+      ...selectedTemperatures,
+      [event.target.name]: event.target.checked,
+    });
+  };
+  
+  
+
 
   return (
     <div className="temperature-visualizer">
@@ -88,7 +101,11 @@ const TemperatureVisualizer = () => {
       </li>
     )
   })}
-</ul>
+      </ul>
+      <TemperatureCheckboxes temperatures={temperatures} handleCheckboxChange={handleCheckboxChange} />
+
+      <TemperatureChart selectedTemperatures={selectedTemperatures} />
+
 <p>Time since last update: {minutes}m {seconds}s</p>
 </div>
 );
