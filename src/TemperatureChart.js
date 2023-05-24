@@ -24,7 +24,7 @@ function TemperatureChart({ selectedTemperatures }) {
               data: data.map(item => ({ x: new Date(item.datetime), y: parseFloat(item.temperature) })),
               borderColor: colors[index % colors.length],
               fill: false,
-              pointRadius: 0, 
+              pointRadius: 0,
             };
           }
           return null;
@@ -37,6 +37,10 @@ function TemperatureChart({ selectedTemperatures }) {
     };
 
     fetchTemperatureData();
+
+    const intervalId = setInterval(fetchTemperatureData, 300000); // Fetch data every five minutes
+
+    return () => clearInterval(intervalId); // Clear interval on unmount
   }, [selectedTemperatures]);
 
   return (
