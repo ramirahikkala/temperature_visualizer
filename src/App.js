@@ -83,7 +83,6 @@ const TemperatureVisualizer = () => {
 
       <TemperatureChart selectedTemperatures={selectedTemperatures} />
 
-<p>Time since last update: {minutes}m {seconds}s</p>
 </div>
 );
 };
