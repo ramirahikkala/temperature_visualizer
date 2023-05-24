@@ -1,6 +1,6 @@
 import React from 'react';
 
-const TemperatureCheckboxes = ({ temperatures, handleCheckboxChange }) => {
+const TemperatureCheckboxes = ({ temperatures, handleCheckboxChange, selectedTemperatures }) => {
   const temperatureKeys = Object.keys(temperatures);
 
   return (
@@ -11,6 +11,7 @@ const TemperatureCheckboxes = ({ temperatures, handleCheckboxChange }) => {
             type="checkbox"
             name={key}
             onChange={handleCheckboxChange}
+            checked={selectedTemperatures[key] || false}
           />
           {key}
         </label>

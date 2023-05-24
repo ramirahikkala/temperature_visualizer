@@ -5,10 +5,14 @@ import { utcToZonedTime, format } from 'date-fns-tz';
 import TemperatureChart from './TemperatureChart';
 import TemperatureCheckboxes from './TemperatureCheckbox';
 
-
 const TemperatureVisualizer = () => {
   const [temperatures, setTemperatures] = useState({});
   const [timeElapsed, setTimeElapsed] = useState(0);
+
+  // Retrieve previously selected temperatures from localStorage
+  const previouslySelectedTemperatures = JSON.parse(localStorage.getItem('selectedTemperatures')) || {};
+
+  const [selectedTemperatures, setSelectedTemperatures] = useState(previouslySelectedTemperatures);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,17 +42,19 @@ const TemperatureVisualizer = () => {
   const minutes = Math.floor(timeElapsed / 60);
   const seconds = timeElapsed % 60;
   const finlandTimeZone = 'Europe/Helsinki';
-  const [selectedTemperatures, setSelectedTemperatures] = useState({});
+
   const handleCheckboxChange = (event) => {
-    setSelectedTemperatures({
+    const updatedSelectedTemperatures = {
       ...selectedTemperatures,
       [event.target.name]: event.target.checked,
-    });
+    };
+
+    // Save the updated selection to localStorage
+    localStorage.setItem('selectedTemperatures', JSON.stringify(updatedSelectedTemperatures));
+
+    setSelectedTemperatures(updatedSelectedTemperatures);
   };
   
-  
-
-
   return (
     <div className="temperature-visualizer">
       <h2>Lämpötilat:</h2>
@@ -79,20 +85,20 @@ const TemperatureVisualizer = () => {
         })}
       </ul>    
      
-      <TemperatureCheckboxes temperatures={temperatures} handleCheckboxChange={handleCheckboxChange} />
+      <TemperatureCheckboxes temperatures={temperatures} handleCheckboxChange={handleCheckboxChange} selectedTemperatures={selectedTemperatures} />
 
       <TemperatureChart selectedTemperatures={selectedTemperatures} />
 
-</div>
-);
+    </div>
+  );
 };
 
 function App() {
-return (
-<div className="App">
-<TemperatureVisualizer />
-</div>
-);
+  return (
+    <div className="App">
+      <TemperatureVisualizer />
+    </div>
+  );
 }
 
 export default App;
