@@ -5,43 +5,45 @@ import 'chartjs-adapter-date-fns';
 
 Chart.register(LineElement, TimeScale, LinearScale, PointElement, Tooltip, Legend);
 
-
 function TemperatureChart({ selectedTemperatures }) {
   const [chartData, setChartData] = useState(null);
 
   // Array of colors for the chart lines
   const colors = ['rgba(75,192,192,1)', 'rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'];
 
+  const fetchTemperatureData = async () => {
+    const datasets = await Promise.all(
+      Object.keys(selectedTemperatures).map(async (name, index) => {
+        if (selectedTemperatures[name]) {
+          const response = await fetch(`https://ckslcpsx8d.execute-api.eu-central-1.amazonaws.com/v1/ruuvi-data?measurementPoint=${name}&timeRange=24`);
+          const data = await response.json();
+          return {
+            label: name,
+            data: data.map(item => ({ x: new Date(item.datetime), y: parseFloat(item.temperature) })),
+            borderColor: colors[index % colors.length],
+            fill: false,
+            pointRadius: 0,
+          };
+        }
+        return null;
+      })
+    );
+
+    setChartData({
+      datasets: datasets.filter(dataset => dataset !== null),
+    });
+  };
+
   useEffect(() => {
-    const fetchTemperatureData = async () => {
-      const datasets = await Promise.all(
-        Object.keys(selectedTemperatures).map(async (name, index) => {
-          if (selectedTemperatures[name]) {
-            const response = await fetch(`https://ckslcpsx8d.execute-api.eu-central-1.amazonaws.com/v1/ruuvi-data?measurementPoint=${name}&timeRange=24`);
-            const data = await response.json();
-            return {
-              label: name,
-              data: data.map(item => ({ x: new Date(item.datetime), y: parseFloat(item.temperature) })),
-              borderColor: colors[index % colors.length],
-              fill: false,
-              pointRadius: 0,
-            };
-          }
-          return null;
-        })
-      );
-
-      setChartData({
-        datasets: datasets.filter(dataset => dataset !== null),
-      });
-    };
-
     fetchTemperatureData();
 
     const intervalId = setInterval(fetchTemperatureData, 300000); // Fetch data every five minutes
-
     return () => clearInterval(intervalId); // Clear interval on unmount
-  }, [selectedTemperatures]);
+  }, []); // Notice this array is empty now
+
+  useEffect(() => {
+    fetchTemperatureData();
+  }, [selectedTemperatures]); // Fetch data immediately when selectedTemperatures changes
 
   return (
     <div>
