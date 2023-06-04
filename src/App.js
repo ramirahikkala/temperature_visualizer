@@ -96,8 +96,6 @@ const TemperatureVisualizer = () => {
 function App() {
   return (
     <div className="App">
-      <iframe src="http://46.254.100.42/36f72cf4-e543-474b-aea4-080851abfbc8.html" width="640" height="360" frameborder="no" scrolling="no" allowfullscreen="true"></iframe>
-
       <TemperatureVisualizer />
     </div>
   );
