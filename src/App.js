@@ -110,7 +110,7 @@ const TemperatureVisualizer = () => {
 
       <h2>Kasviluettelo:</h2>
       <h3>{plants.title}</h3>
-      <ul>
+      <ul style={{ listStyleType: 'none', padding: 0 }}>
         {plants.plantCounts?.map((plantCount, index) => (
           <li key={index}>
             <h4>{plantCount.heading}</h4>
