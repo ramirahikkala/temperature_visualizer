@@ -5,9 +5,28 @@ import { utcToZonedTime, format } from 'date-fns-tz';
 import TemperatureChart from './TemperatureChart';
 import TemperatureCheckboxes from './TemperatureCheckbox';
 
+
 const TemperatureVisualizer = () => {
   const [temperatures, setTemperatures] = useState({});
   const [timeElapsed, setTimeElapsed] = useState(0);
+  const [plants, setPlants] = useState({});
+
+  useEffect(() => {
+    const fetchPlantsData = async () => {
+      try {
+        const response = await axios.get('https://0iq8z0yqd8.execute-api.eu-central-1.amazonaws.com/v1/plants');
+        setPlants(response.data);
+      } catch (error) {
+        console.error('Error fetching plants:', error);
+      }
+    };
+
+    fetchPlantsData();
+    const intervalId = setInterval(fetchPlantsData, 300000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
 
   // Retrieve previously selected temperatures from localStorage
   const previouslySelectedTemperatures = JSON.parse(localStorage.getItem('selectedTemperatures')) || {};
@@ -54,7 +73,7 @@ const TemperatureVisualizer = () => {
 
     setSelectedTemperatures(updatedSelectedTemperatures);
   };
-  
+
   return (
     <div className="temperature-visualizer">
       <h2>Lämpötilat:</h2>
@@ -63,7 +82,7 @@ const TemperatureVisualizer = () => {
           .sort(([nameA], [nameB]) => nameA.localeCompare(nameB))
           .map(([name, data], index) => (
             <li key={index}>
-              <b>{name}:</b> {data.latest.temperature_calibrated} °C  
+              <b>{name}:</b> {data.latest.temperature_calibrated} °C
             </li>
           ))}
       </ul>
@@ -75,7 +94,7 @@ const TemperatureVisualizer = () => {
           const latest_datetime_local = data.latest.datetime_str ? format(utcToZonedTime(data.latest.datetime_str, finlandTimeZone), 'EEE HH:mm') : '';
 
           return (
-            <li key={index} > 
+            <li key={index} >
               <h4>{name}:</h4><br />
               <b>Latest:</b> {data.latest.temperature_calibrated}°C at {latest_datetime_local}<br />
               <b>Min:</b> {data.min_max.min}°C at {min_datetime_local}<br />
@@ -83,11 +102,29 @@ const TemperatureVisualizer = () => {
             </li>
           )
         })}
-      </ul>    
-     
+      </ul>
+
       <TemperatureCheckboxes temperatures={temperatures} handleCheckboxChange={handleCheckboxChange} selectedTemperatures={selectedTemperatures} />
 
       <TemperatureChart selectedTemperatures={selectedTemperatures} />
+
+      <h2>Kasviluettelo:</h2>
+      <h3>{plants.title}</h3>
+      <ul>
+        {plants.plantCounts?.map((plantCount, index) => (
+          <li key={index}>
+            <h4>{plantCount.heading}</h4>
+            <p>Yhteensä kasveja: {plantCount.totalPlants}</p>
+            <ul>
+              {plantCount.subheadings?.map((subheading, subIndex) => (
+                <li key={subIndex}>
+                  <p>{subheading.subheading}: {subheading.plants}</p>
+                </li>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </ul>
 
     </div>
   );
