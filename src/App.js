@@ -116,7 +116,7 @@ const TemperatureVisualizer = () => {
           <li key={index}>
             <h4>{plantCount.heading}</h4>
             <p>Yhteensä: {plantCount.totalPlants}</p>
-            <ul>
+            <ul style={{ listStyleType: 'none', padding: 0 }}>
               {plantCount.subheadings?.map((subheading, subIndex) => (
                 <li key={subIndex}>
                   <p>{subheading.subheading}: {subheading.plants}</p>
